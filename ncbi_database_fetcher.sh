@@ -14,13 +14,13 @@ set -e
 VERSION=1.0 
 #CREATED: 12 June 2018
 #REVISION:
+# 22 June 2018: include quite mode that avoid watching the progress
 #		
 #
 #DESCRIPTION:Script that extract a database from ncbi database using terms
 #AKNOWLEDGE: 
 #		-Multiple arguments in one flag: https://stackoverflow.com/questions/7529856/retrieving-multiple-arguments-for-a-single-option-using-getopts-in-bash
-#TODO:
-#		-Add and remove sequences in the same execution
+#
 #================================================================
 # END_OF_HEADER
 #================================================================
@@ -202,6 +202,13 @@ wget -q -O $output_dir/$file_name".count" $base"esearch.fcgi?db="$database_type"
 
 counter=$(cat $output_dir/$file_name".count" | awk '/<Count>/' | head -n 1 | awk '/<Count>/ {split($0,counter_prev,"</Count>");split(counter_prev[1],counter,"<Count>")}END{print counter[length(counter)]}')
 echo -e "FOUND" $counter "RECORDS\n"
+
+if [ $counter -eq 0 ]; then
+	echo "Try different terms"
+	echo "EXIT"
+	exit 1
+fi
+
 echo "Retrieving Id"
 
 ##OBTAIN TOTAL LIST OF ID
