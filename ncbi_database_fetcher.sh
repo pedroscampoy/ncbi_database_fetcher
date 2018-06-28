@@ -147,7 +147,7 @@ fi
 
 if [ ! $file_name ]; then
 
-	if [ "${#terms_and[@]}" > 1 ]; then
+	if [ "${#terms_and[@]}" -gt 1 ]; then
 		file_name_value_one=$(echo ${terms_and[0]})
 		file_name_value_two=$(echo ${terms_and[1]})
 
@@ -227,7 +227,7 @@ for i in $list_of_id
 do 
 	if [ $quiet = false ]; then
 
-		echo $counter"/""${#array_of_id[@]}" >&1
+		echo $counter"/""${#array_of_id[@]}"
 	fi
 
 	((counter++))
