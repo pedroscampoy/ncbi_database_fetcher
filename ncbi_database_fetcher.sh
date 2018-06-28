@@ -32,7 +32,7 @@ usage() {
 
 ncbi_database_fetcher is a script that extract sequences from NCBI by term
 
-usage : $0 <(-y term1 -y term2 | -y "term1 term2")> [(-n term1 -n term2 | -n "term1 term2")] [-O <organism>][-d (nucleotide|protein)] [-f <filename>] [-o <directory>]  [-v] [-h]
+usage : $0 <(-y term1 -y term2 | -y "term1 term2")> [(-n term1 -n term2 | -n "term1 term2")] [-O <organism>][-d (nucleotide|protein)] [-f <filename>] [-o <directory>] [-q] [-v] [-h]
 
 	-y list of key terms separated by space to be INCLUDED in sequences title
 	-n list of key terms separated by space to be EXCLUDED in sequences title
@@ -40,6 +40,7 @@ usage : $0 <(-y term1 -y term2 | -y "term1 term2")> [(-n term1 -n term2 | -n "te
 	-d database type, default nucleotide
 	-o output directory (optional). By default the file is placed in cwd
 	-f file name (optional). By default is the first term used as query
+	-q quiet
 	-v version
 	-h display usage message
 
@@ -62,10 +63,11 @@ cwd="$(pwd)"
 use_term_and=false
 use_term_not=false
 use_term_org=false
+quiet=false
 database_type=nucleotide
 #PARSE VARIABLE ARGUMENTS WITH getops
 
-options=":y:n:o:f:d:O:vh"
+options=":y:n:o:f:d:O:qvh"
 while getopts $options opt; do
 	case $opt in
 		o )
@@ -88,6 +90,9 @@ while getopts $options opt; do
 		n )
 			terms_not+=($OPTARG)
 			use_term_not=true
+			;;
+		q )
+			quiet=true
 			;;
 		h )
 		  	usage
@@ -220,7 +225,10 @@ fi
 
 for i in $list_of_id
 do 
-	echo $counter"/""${#array_of_id[@]}" >&1
+	if [ $quiet = false ]; then
+
+		echo $counter"/""${#array_of_id[@]}" >&1
+	fi
 
 	((counter++))
 	
