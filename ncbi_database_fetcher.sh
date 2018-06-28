@@ -30,7 +30,7 @@ VERSION=1.0
 usage() {
 	cat << EOF
 
-ncbi_database_fetcher is a script that extract sequences by term, either by key or file with a list
+ncbi_database_fetcher is a script that extract sequences from NCBI by term
 
 usage : $0 <(-y term1 -y term2 | -y "term1 term2")> [(-n term1 -n term2 | -n "term1 term2")] [-O <organism>][-d (nucleotide|protein)] [-f <filename>] [-o <directory>]  [-v] [-h]
 
